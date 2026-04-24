@@ -1,0 +1,86 @@
+function createShipperQuiz() {
+  // 1. Tạo Form mới
+  const form = FormApp.create('Mini-Quiz: Thử Thách Vua Giao Hàng')
+      .setTitle('THỬ THÁCH VUA GIAO HÀNG')
+      .setDescription('3 phút thử tài - Nhận quà liền tay!\nLưu ý: Chọn đáp án đúng nhất theo quy trình vận hành.')
+      .setIsQuiz(true)
+      .setAllowResponseEdits(false)
+      .setCollectEmail(false); // Đổi thành true nếu muốn thu thập email nhân viên
+
+  // 2. Dữ liệu câu hỏi
+  const quizData = [
+    {
+      q: "Bạn đến giao đơn COD 2 triệu, khách đòi 'cho xem hàng tí rồi mới trả tiền'. Quy định là KHÔNG cho xem. Bạn làm thế nào?",
+      options: [
+        {text: "Thôi thì khách năn nỉ quá, cho xem nhanh rồi đóng lại ngay chắc không sao.", isCorrect: false},
+        {text: "Giải thích nhẹ nhàng quy định và đề nghị khách liên hệ shop để được đồng ý mở hàng.", isCorrect: true},
+        {text: "Kiên quyết từ chối thẳng thừng: 'Không được đâu anh ơi, công ty em cấm rồi'.", isCorrect: false}
+      ],
+      points: 1
+    },
+    {
+      q: "Đang đi giao hàng mà trời đổ mưa tầm tã, bạn sẽ ưu tiên việc gì nhất?",
+      options: [
+        {text: "Ráng phóng nhanh cho kịp giờ giao, trễ đơn bị trừ điểm thì khổ.", isCorrect: false},
+        {text: "Tấp vào lề, phủ bạt che kỹ thùng hàng và đợi ngớt mưa mới đi tiếp.", isCorrect: true},
+        {text: "Vừa lái xe vừa cầm điện thoại xem bản đồ để tìm đường tắt tránh ngập.", isCorrect: false}
+      ],
+      points: 1
+    },
+    {
+      q: "Khách báo 'Anh đang đi làm, giao cho chú bảo vệ giúp anh'. Bạn làm gì để tránh thất lạc?",
+      options: [
+        {text: "Gửi bảo vệ xong, gọi điện báo khách một tiếng là xong nhiệm vụ.", isCorrect: false},
+        {text: "Chụp ảnh kiện hàng kèm chữ ký/mặt bác bảo vệ và gửi lên app xác nhận.", isCorrect: true},
+        {text: "Bảo khách: 'Anh không nhận trực tiếp em không giao được', rồi mang hàng về kho.", isCorrect: false}
+      ],
+      points: 1
+    },
+    {
+      q: "Khách nhất quyết không nhận hàng vì hộp hơi móp nhẹ (hàng bên trong vẫn ổn). Bạn xử lý thế nào?",
+      options: [
+        {text: "Nói thẳng: 'Cái hộp thôi mà anh, có phải hàng đâu mà anh làm khó em'.", isCorrect: false},
+        {text: "Ghi nhận lý do, chụp ảnh vết móp và hướng dẫn khách quy trình khiếu nại.", isCorrect: true},
+        {text: "Tự ý giảm giá ship cho khách để khách vui vẻ nhận hàng cho xong.", isCorrect: false}
+      ],
+      points: 1
+    },
+    {
+      q: "Cuối ngày ví COD đang cầm khoản tiền lớn. Cách quản lý nào chuẩn nhất?",
+      options: [
+        {text: "Để tiền trong cốp xe cho chắc, mai nộp công ty một thể.", isCorrect: false},
+        {text: "Nộp tiền ngay qua các điểm liên kết hoặc chuyển khoản theo đúng hạn.", isCorrect: true},
+        {text: "Lấy tạm một ít tiêu xài cá nhân, mai lĩnh lương đắp lại sau.", isCorrect: false}
+      ],
+      points: 1
+    },
+    {
+      q: "Bạn đang gấp, nhưng ngã tư đèn vàng còn 2 giây. Bạn sẽ làm gì?",
+      options: [
+        {text: "Rồ ga vọt lẹ, 2 giây vẫn kịp chán!", isCorrect: false},
+        {text: "Rà phanh dừng lại từ từ, an toàn là trên hết.", isCorrect: true},
+        {text: "Quan sát thấy không có công an thì cứ đi thôi.", isCorrect: false}
+      ],
+      points: 1
+    }
+  ];
+
+  // 3. Thêm câu hỏi vào Form
+  quizData.forEach((data) => {
+    const item = form.addMultipleChoiceItem();
+    item.setTitle(data.q)
+        .setPoints(data.points)
+        .setRequired(true);
+    
+    const choices = data.options.map(opt => {
+      return item.createChoice(opt.text, opt.isCorrect);
+    });
+    
+    item.setChoices(choices);
+  });
+
+  // 4. Xuất kết quả
+  console.log('Đã tạo xong bài Quiz!');
+  console.log('Link chỉnh sửa: ' + form.getEditUrl());
+  console.log('Link gửi cho nhân viên: ' + form.getPublishedUrl());
+}
